@@ -184,7 +184,9 @@ function getAllCompsFromServer(url_idx) {
       default_per = document.getElementById("defaultPer");
       dataAll = data.filter(i => !(i.recommend < 5*e9 && i.vote < 2*e9));
       dataIdx = 0;
+      possible.lenght = dataAll.lenght
       setPossible();
+      possible.filter(n => n)
    }).catch(e => {
       url_idx++;
       if (!urls[url_idx]) cc.innerHTML = `<div class="block">${t("데이터 로드 실패")}</div>`;
@@ -216,7 +218,8 @@ function setPossible() {
       const hpup_tmp = d.hpUp == undefined ? 0 : d.hpUp;
       hpUpMap.set(d.id, hpup_tmp);
    }
-
+   
+   
    // 한 번에 처리할 항목 수
    const batchSize = 100;
 
@@ -239,7 +242,7 @@ function setPossible() {
             else if (bonds.every(item => item === 1) && d.vote > 0) d.fit13t = d.vote;
             else d.fit13t = autoCalc(compList, d.description, bonds, -1, _optionList);
 
-            if (d.fit13t >= limit_fit) possible.push(d);
+            if (d.fit13t >= limit_fit) possible[dataIdx -1] = d;
          } else {
             if (hpUpMap.get(compList[0]) < limit_hp_up) continue;
 
@@ -248,7 +251,7 @@ function setPossible() {
 
             d.fit13t = autoCalc(compList, d.description, bonds, boss_element, _optionList);
 
-            if (d.fit13t >= limit_fit) possible.push(d);
+            if (d.fit13t >= limit_fit) possible[dataIdx-1] = d;
          }
       }
    }
